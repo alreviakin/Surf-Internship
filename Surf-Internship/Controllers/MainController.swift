@@ -11,7 +11,7 @@ import SnapKit
 class MainController: UIViewController {
     
     //MARK: - Variables
-    
+    private let enterButton: Int?
     private let scrollView: UIScrollView = {
        let scroll = UIScrollView()
         scroll.isScrollEnabled = true
@@ -42,7 +42,7 @@ class MainController: UIViewController {
     private let descriptionLabel: UILabel = {
        let label = UILabel()
         label.text = "Работай над реальными задачами под руководством опытного наставника и получи возможность стать частью команды мечты."
-        label.font = UIFont.systemFont(ofSize: 13)
+        label.font = UIFont.systemFont(ofSize: 13, weight: .light)
         label.textColor = UIColor(hexString: "#96959B")
         label.numberOfLines = 0
         return label
@@ -69,8 +69,24 @@ class MainController: UIViewController {
         let button = UIButton().createMyButton(name: "Flutter")
        return button
     }()
-    private lazy var horizontalButtons: [UIButton] = [iosButton, androidButton, designButton, flutterButton]
-
+    private let qaButton: UIButton = {
+        let button = UIButton().createMyButton(name: "QA")
+       return button
+    }()
+    private let pmButton: UIButton = {
+        let button = UIButton().createMyButton(name: "PM")
+       return button
+    }()
+    private lazy var horizontalButtons: [UIButton] = [iosButton, androidButton, designButton, flutterButton, qaButton, pmButton]
+    private let suggestionLabel: UILabel = {
+       let label = UILabel()
+        label.text = "Получай стипендию, выстраивай удобный график, работай на современном железе."
+        label.font = UIFont.systemFont(ofSize: 13, weight: .light)
+        label.textColor = UIColor(hexString: "#96959B")
+        label.numberOfLines = 0
+        return label
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configuration()
@@ -88,17 +104,19 @@ class MainController: UIViewController {
         backgroundView.addSubview(descriptionLabel)
         horiontalScroll.contentSize = CGSize(width: view.bounds.width * 2, height: 44)
         backgroundView.addSubview(horiontalScroll)
-        horiontalScroll.addSubview(iosButton)
-        horiontalScroll.addSubview(androidButton)
-        horiontalScroll.addSubview(designButton)
-        horiontalScroll.addSubview(flutterButton)
+        for index in 0..<horizontalButtons.count {
+            let button = horizontalButtons[index]
+            horiontalScroll.addSubview(button)
+            button.addTarget(self, action: #selector(enterButton(sender:)), for: .touchUpInside)
+            button.tag = index
+        }
+        backgroundView.addSubview(suggestionLabel)
     }
     
     private func layout() {
         scrollView.snp.makeConstraints { make in
             make.left.right.bottom.equalToSuperview()
             make.top.equalToSuperview()
-            
         }
         
         backgroundImageView.snp.makeConstraints { make in
@@ -146,5 +164,22 @@ class MainController: UIViewController {
                 make.height.equalTo(44)
             }
         }
+        suggestionLabel.snp.makeConstraints { make in
+            make.top.equalTo(horiontalScroll.snp.bottom).offset(24)
+            make.left.equalTo(nameLabel)
+            make.right.equalToSuperview().offset(-20)
+        }
+    }
+}
+
+extension MainController {
+    @objc private func enterButton(sender: UIButton) {
+        for button in horizontalButtons {
+            button.backgroundColor = UIColor(hexString: "#F3F3F5")
+            button.setTitleColor(.black, for: .normal)
+        }
+        sender.backgroundColor = .black
+        sender.setTitleColor(.white, for: .normal)
+        enterButton = sender.tag
     }
 }
