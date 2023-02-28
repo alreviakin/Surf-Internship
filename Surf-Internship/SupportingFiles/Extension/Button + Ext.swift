@@ -14,6 +14,9 @@ extension UIButton {
         button.setTitle(name, for: .normal)
         button.layer.cornerRadius = 12
         button.clipsToBounds = true
+        button.titleLabel?.textAlignment = .center
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        button.setTitleColor(.black, for: .normal)
         return button
     }
 }

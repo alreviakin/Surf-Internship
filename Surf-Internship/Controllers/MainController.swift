@@ -50,9 +50,26 @@ class MainController: UIViewController {
     private let horiontalScroll: UIScrollView = {
        let scroll = UIScrollView()
         scroll.showsHorizontalScrollIndicator = false
-        scroll.backgroundColor = .blue
+        scroll.isScrollEnabled = true
         return scroll
     }()
+    private let iosButton: UIButton = {
+        let button = UIButton().createMyButton(name: "IOS")
+       return button
+    }()
+    private let androidButton: UIButton = {
+        let button = UIButton().createMyButton(name: "Android")
+       return button
+    }()
+    private let designButton: UIButton = {
+        let button = UIButton().createMyButton(name: "Design")
+       return button
+    }()
+    private let flutterButton: UIButton = {
+        let button = UIButton().createMyButton(name: "Flutter")
+       return button
+    }()
+    private lazy var horizontalButtons: [UIButton] = [iosButton, androidButton, designButton, flutterButton]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,6 +88,10 @@ class MainController: UIViewController {
         backgroundView.addSubview(descriptionLabel)
         horiontalScroll.contentSize = CGSize(width: view.bounds.width * 2, height: 44)
         backgroundView.addSubview(horiontalScroll)
+        horiontalScroll.addSubview(iosButton)
+        horiontalScroll.addSubview(androidButton)
+        horiontalScroll.addSubview(designButton)
+        horiontalScroll.addSubview(flutterButton)
     }
     
     private func layout() {
@@ -104,6 +125,26 @@ class MainController: UIViewController {
             make.left.equalTo(descriptionLabel)
             make.right.equalToSuperview()
             make.height.equalTo(44)
+        }
+        for index in 0..<horizontalButtons.count {
+            let button = horizontalButtons[index]
+            button.titleLabel?.snp.makeConstraints({ make in
+                make.left.equalToSuperview().offset(24)
+                make.right.equalToSuperview().offset(-24)
+            })
+            if index == 0 {
+                button.snp.makeConstraints { make in
+                    make.left.top.equalToSuperview()
+                    make.height.equalTo(44)
+                }
+                continue
+            }
+            let beforeButton = horizontalButtons[index-1]
+            button.snp.makeConstraints { make in
+                make.left.equalTo(beforeButton.snp.right).offset(12)
+                make.top.equalToSuperview()
+                make.height.equalTo(44)
+            }
         }
     }
 }
