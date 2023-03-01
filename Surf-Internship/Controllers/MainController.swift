@@ -130,7 +130,7 @@ class MainController: UIViewController {
     
     private func configuration() {
         view.backgroundColor = .white
-        scrollView.contentSize = CGSize(width: view.bounds.width, height: view.bounds.height * 1.45)
+        scrollView.contentSize = CGSize(width: view.bounds.width, height: view.bounds.height * 1.4)
         view.addSubview(backgroundImageView)
         view.addSubview(scrollView)
         scrollView.addSubview(backgroundView)
@@ -164,7 +164,7 @@ class MainController: UIViewController {
             make.top.equalToSuperview()
         }
         backgroundView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(view.bounds.height * 0.55)
+            make.top.equalToSuperview().offset(view.bounds.height * 0.5)
             make.width.left.equalToSuperview()
             make.height.equalTo(view.bounds.height * 0.9)
         }
@@ -202,6 +202,7 @@ class MainController: UIViewController {
             make.left.equalToSuperview().offset(44)
             make.right.equalToSuperview().offset(-44)
         }
+        
     }
     
     private func layoutButtons() {
